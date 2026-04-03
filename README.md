@@ -247,7 +247,7 @@ The application will run at http://127.0.0.1:5000/
 
 <img width="1180" height="791" alt="image" src="https://github.com/user-attachments/assets/32e69a7c-8cf9-47df-b6e0-ab05785eb45e" />
 
-###Forget Password Page
+### Forget Password Page
 
 <img width="1181" height="658" alt="image" src="https://github.com/user-attachments/assets/15474230-272a-4035-be27-a0d9227d3378" />
 
