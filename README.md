@@ -255,9 +255,7 @@ The application will run at http://127.0.0.1:5000/
 <img width="1181" height="988" alt="image" src="https://github.com/user-attachments/assets/13dc3555-ba92-42ca-9480-3edf64079253" />
 <img width="1181" height="1036" alt="image" src="https://github.com/user-attachments/assets/4118c8f7-beb7-42b6-b728-6efbfbd2c5fd" />
 <img width="1181" height="695" alt="image" src="https://github.com/user-attachments/assets/beac2b2c-f38b-4252-a7e2-4a6d8905db10" />
-<img width="1181" height="552" alt="image" src="https://github.com/user-attachments/assets/71fd516c-8f82-4c03-85a5-213a11a9da16" />
-<img width="1181" height="614" alt="image" src="https://github.com/user-attachments/assets/3e030400-07d8-4315-9fa9-bb9c943ca463" />
-<img width="1181" height="672" alt="image" src="https://github.com/user-attachments/assets/74496e41-9760-4b22-ab02-ebc4c59db9f5" />
+
 <img width="1063" height="1299" alt="image" src="https://github.com/user-attachments/assets/6b4c8644-b37e-4d7e-a48a-1bfef91ed09b" />
 <img width="1063" height="985" alt="image" src="https://github.com/user-attachments/assets/5ac3c85e-268d-4f3f-9fef-88cf1d8268a3" />
 <img width="1063" height="991" alt="image" src="https://github.com/user-attachments/assets/7babc173-738c-4dfa-9169-977595676b95" />
@@ -302,7 +300,9 @@ The application will run at http://127.0.0.1:5000/
 <img width="1181" height="661" alt="image" src="https://github.com/user-attachments/assets/7e63df9d-8228-42dc-bc41-78c89d1743d4" />
 
 ### Settings Modal (Voice & Profile)
-![Settings]
+<img width="1181" height="552" alt="image" src="https://github.com/user-attachments/assets/71fd516c-8f82-4c03-85a5-213a11a9da16" />
+<img width="1181" height="614" alt="image" src="https://github.com/user-attachments/assets/3e030400-07d8-4315-9fa9-bb9c943ca463" />
+<img width="1181" height="672" alt="image" src="https://github.com/user-attachments/assets/74496e41-9760-4b22-ab02-ebc4c59db9f5" />
 
 ---
 
