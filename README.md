@@ -1,4 +1,4 @@
-<img width="1181" height="475" alt="image" src="https://github.com/user-attachments/assets/1f78187a-68b6-4288-b03d-4548ca67693e" /><img width="1181" height="695" alt="image" src="https://github.com/user-attachments/assets/162681b8-e221-40de-85d6-b21c983a46c9" /># 🦯 BeyondVision: AI-Powered Assistance System for the Visually Impaired
+# 🦯 BeyondVision: AI-Powered Assistance System for the Visually Impaired
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0.0-green.svg)](https://flask.palletsprojects.com/)
