@@ -1,0 +1,2268 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeyondVision Caretaker Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #5c7cfa;
+            --primary-hover: #4c6ef5;
+            --accent: #22b8cf;
+            --text-light: #f1f3f5;
+            --text-muted: #ced4da;
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --radius: 14px;
+            --blur: blur(14px);
+            --transition: 0.3s ease;
+            --dark-bg: #1c1f4a;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.15);
+            --danger: #ff6b6b;
+            --success: #51cf66;
+            --warning: #ffd43b;
+            --info: #74c0fc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", system-ui, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-bg), #1b6ca8);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(28, 31, 74, 0.9);
+            backdrop-filter: var(--blur);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1.2rem 0;
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        h1 i {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            background: var(--glass-bg);
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .nav-links a:hover {
+            background: var(--card-hover);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:nth-child(2) {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+        }
+
+        .nav-links a:nth-child(2):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 184, 207, 0.4);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .last-updated {
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card:hover {
+            background: var(--card-hover);
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+            color: var(--text-light);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-card:hover {
+            background: var(--card-hover);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-title i {
+            color: var(--accent);
+        }
+
+        .alerts-section {
+            background: var(--card-bg);
+            backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .alerts-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .alerts-section h2 i {
+            color: var(--danger);
+        }
+
+        .alert-item {
+            padding: 1.2rem;
+            border-left: 5px solid var(--danger);
+            background: rgba(255, 107, 107, 0.1);
+            margin-bottom: 0.8rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            transition: var(--transition);
+        }
+
+        .alert-item:hover {
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        .alert-item.warning {
+            border-left-color: var(--warning);
+            background: rgba(255, 212, 59, 0.1);
+        }
+
+        .alert-item.warning:hover {
+            background: rgba(255, 212, 59, 0.15);
+        }
+
+        .user-activity {
+            background: var(--card-bg);
+            backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            padding: 1.8rem;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-activity h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-activity h2 i {
+            color: var(--accent);
+        }
+
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .activity-table th,
+        .activity-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+
+        .activity-table th {
+            background: rgba(255, 255, 255, 0.08);
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .activity-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .activity-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .risk-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .risk-safe {
+            background: rgba(81, 207, 102, 0.2);
+            color: #d3f9d8;
+            border-color: var(--success);
+        }
+
+        .risk-moderate {
+            background: rgba(255, 212, 59, 0.2);
+            color: #fff3cd;
+            border-color: var(--warning);
+        }
+
+        .risk-risky {
+            background: rgba(255, 107, 107, 0.2);
+            color: #f8d7da;
+            border-color: var(--danger);
+        }
+
+        .risk-dangerous {
+            background: rgba(199, 0, 0, 0.3);
+            color: #ffcccc;
+            border-color: #c70000;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-grow: 1;
+        }
+
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card {
+                padding: 1.2rem;
+            }
+
+            .stat-card {
+                padding: 1.2rem;
+            }
+
+            .alerts-section,
+            .user-activity {
+                padding: 1.2rem;
+            }
+
+            .activity-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .activity-table th,
+            .activity-table td {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .chart-container {
+                height: 200px;
+                padding: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-links a {
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .chart-title {
+                font-size: 1.1rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-hover);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card,
+        .chart-card,
+        .alerts-section,
+        .user-activity {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .user-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .status-dot.inactive {
+            background: var(--text-muted);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .no-data i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .map-container {
+            height: 300px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        #caretakerMap,
+        #routeHistoryMap {
+            width: 100%;
+            height: 100%;
+        }
+
+        .map-control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .map-control-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .notification-bell {
+            position: relative;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .notification-panel {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .notification-header {
+            padding: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .notification-item.unread {
+            background: rgba(34, 184, 207, 0.1);
+            border-left: 3px solid var(--accent);
+        }
+
+        .notification-item.critical {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 3px solid var(--danger);
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification-message {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .no-notifications {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .no-notifications i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .user-marker {
+            background: transparent;
+            border: none;
+        }
+
+        .user-marker.active {
+            filter: drop-shadow(0 0 5px rgba(81, 207, 102, 0.5));
+        }
+
+        .user-marker.inactive {
+            opacity: 0.6;
+        }
+
+        .route-path {
+            stroke-width: 4;
+            stroke-opacity: 0.8;
+            fill: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        #routeUserSelect option {
+            color: black;
+            background-color: white;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <h1><i class="fas fa-chart-line"></i> BeyondVision Caretaker Analytics Dashboard</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Main App</a>
+                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        const userLocationsData = JSON.parse('{{ user_locations_json|safe if user_locations_json else "{}" }}');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelector('.nav-links');
+            const notificationBell = document.createElement('a');
+            notificationBell.href = '#';
+            notificationBell.className = 'notification-bell';
+            notificationBell.innerHTML = `
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count" id="notificationCount">0</span>
+                `;
+            notificationBell.style.cssText = `
+                    background: var(--glass-bg);
+                    color: var(--text-light);
+                    text-decoration: none;
+                    padding: 0.6rem 1.2rem;
+                    border-radius: 30px;
+                    transition: var(--transition);
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    border: 1px solid var(--glass-border);
+                    cursor: pointer;
+                    position: relative;
+                `;
+            notificationBell.onclick = function (e) {
+                e.preventDefault();
+                toggleNotificationPanel();
+            };
+
+            const logoutBtn = navLinks.querySelector('a[href*="logout"]');
+            navLinks.insertBefore(notificationBell, logoutBtn);
+
+            const notificationPanel = document.createElement('div');
+            notificationPanel.id = 'notificationPanel';
+            notificationPanel.className = 'notification-panel';
+            notificationPanel.style.cssText = `
+                    display: none;
+                    position: fixed;
+                    top: 80px;
+                    right: 20px;
+                    width: 350px;
+                    background: var(--glass-bg);
+                    backdrop-filter: var(--blur);
+                    border: 1px solid var(--glass-border);
+                    border-radius: var(--radius);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                    z-index: 1000;
+                `;
+            notificationPanel.innerHTML = `
+                    <div class="notification-header">
+                        <h3 style="margin: 0; color: var(--text-light); font-size: 1.1rem;">Recent Notifications</h3>
+                        <button class="mark-all-read" onclick="markAllAsRead()" style="background: none; border: none; color: var(--accent); cursor: pointer; font-size: 0.9rem;">Mark all read</button>
+                    </div>
+                    <div class="notification-list" id="notificationList">
+                        <div class="no-notifications">
+                            <i class="fas fa-bell-slash"></i>
+                            <p style="margin: 0; color: var(--text-muted);">No new notifications</p>
+                        </div>
+                    </div>
+                `;
+            document.body.appendChild(notificationPanel);
+        });
+    </script>
+
+    <div class="container">
+        <div class="last-updated" id="lastUpdated">
+            Last updated: <span id="updateTime">Loading...</span>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <i class="fas fa-users" style="color: var(--primary);"></i>
+                <div class="stat-value" id="totalUsers">0</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-user-check" style="color: var(--success);"></i>
+                <div class="stat-value" id="activeToday">0</div>
+                <div class="stat-label">Active Today</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+                <div class="stat-value" id="riskAlerts">0</div>
+                <div class="stat-label">Risk Alerts (24h)</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-eye" style="color: var(--warning);"></i>
+                <div class="stat-value" id="obstacleDetections">0</div>
+                <div class="stat-label">Obstacle Detections (7d)</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-shield-alt"></i> Obstacle Detection Types
+                </div>
+                <div class="chart-container">
+                    <canvas id="obstacleChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-chart-bar"></i> Environment Risk Distribution
+                </div>
+                <div class="chart-container">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-file-alt"></i> OCR Usage Trend (7 days)
+                </div>
+                <div class="chart-container">
+                    <canvas id="ocrChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-user-clock"></i> Daily User Activity
+                </div>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="alerts-section">
+            <h2>
+                <i class="fas fa-bell"></i> Recent Risk Alerts
+            </h2>
+            <div id="alertsContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <span>Loading alerts...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-map-marked-alt"></i> Live User Locations
+                </div>
+                <div class="map-container">
+                    <div id="caretakerMap"></div>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="map-control-btn" onclick="refreshUserLocations()">
+                        <i class="fas fa-sync-alt"></i> Refresh Locations
+                    </button>
+                    <button class="map-control-btn" onclick="showAllUsers()">
+                        <i class="fas fa-users"></i> Show All Users
+                    </button>
+                    <button class="map-control-btn" onclick="centerOnActiveUsers()">
+                        <i class="fas fa-crosshairs"></i> Center Active
+                    </button>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-title">
+                    <i class="fas fa-route"></i> Route History
+                    <select id="routeUserSelect" onchange="loadUserRouteHistory(this.value)"
+                        style="margin-left: auto; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 2px 8px;">
+                        <option value="">Select User</option>
+                    </select>
+                </div>
+                <div class="map-container">
+                    <div id="routeHistoryMap"></div>
+                </div>
+                <div id="routeInfo" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                    Select a user to view their navigation history
+                </div>
+            </div>
+        </div>
+
+        <div class="user-activity">
+            <h2>
+                <i class="fas fa-user-activity"></i> User Activity Overview
+            </h2>
+            <div id="userActivityContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <span>Loading user activity...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chartColors = {
+            primary: 'rgba(92, 124, 250, 0.9)',
+            primaryLight: 'rgba(92, 124, 250, 0.4)',
+            accent: 'rgba(34, 184, 207, 0.9)',
+            accentLight: 'rgba(34, 184, 207, 0.4)',
+            success: 'rgba(81, 207, 102, 0.9)',
+            successLight: 'rgba(81, 207, 102, 0.4)',
+            warning: 'rgba(255, 212, 59, 0.9)',
+            warningLight: 'rgba(255, 212, 59, 0.4)',
+            danger: 'rgba(255, 107, 107, 0.9)',
+            dangerLight: 'rgba(255, 107, 107, 0.4)',
+            info: 'rgba(116, 192, 252, 0.9)',
+            infoLight: 'rgba(116, 192, 252, 0.4)',
+            textLight: 'rgba(241, 243, 245, 0.9)',
+            textMuted: 'rgba(206, 212, 218, 0.7)',
+            gridLines: 'rgba(255, 255, 255, 0.15)',
+            background: 'rgba(255, 255, 255, 0.05)'
+        };
+
+        let obstacleChart, riskChart, ocrChart, activityChart;
+
+        let caretakerMap = null;
+        let routeHistoryMap = null;
+        let userMarkers = {};
+        let routeLayers = {};
+        let notifications = [];
+
+        function initializeMaps() {
+            caretakerMap = L.map('caretakerMap').setView([6.9271, 79.8612], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(caretakerMap);
+
+            routeHistoryMap = L.map('routeHistoryMap').setView([6.9271, 79.8612], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(routeHistoryMap);
+
+            loadUserLocations();
+
+            loadUsersForRouteHistory();
+        }
+
+        async function loadUserLocations() {
+            try {
+                const response = await fetch('/api/caretaker/user_locations');
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    updateUserMarkers(data.locations);
+                } else {
+                    console.error('Failed to load user locations:', data.message);
+                    if (userLocationsData && Object.keys(userLocationsData).length > 0) {
+                        const locations = Object.values(userLocationsData);
+                        updateUserMarkers(locations);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user locations:', error);
+                if (userLocationsData && Object.keys(userLocationsData).length > 0) {
+                    const locations = Object.values(userLocationsData);
+                    updateUserMarkers(locations);
+                }
+            }
+        }
+
+        function updateUserMarkers(locations) {
+            Object.values(userMarkers).forEach(marker => {
+                caretakerMap.removeLayer(marker);
+            });
+            userMarkers = {};
+
+            if (!locations || locations.length === 0) {
+                console.log('No user locations available');
+                return;
+            }
+
+            locations.forEach(location => {
+                const isActive = location.is_active ||
+                    (Date.now() - (location.timestamp * 1000)) < 300000;
+
+                const icon = L.divIcon({
+                    className: `user-marker ${isActive ? 'active' : 'inactive'}`,
+                    html: `
+                <div style="position: relative;">
+                    <i class="fas fa-user" style="
+                        color: ${isActive ? '#51cf66' : '#ced4da'};
+                        font-size: 24px;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                    "></i>
+                </div>
+            `,
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24]
+                });
+
+                const marker = L.marker([location.latitude, location.longitude], { icon })
+                    .addTo(caretakerMap)
+                    .bindPopup(`
+                <div style="min-width: 200px;">
+                    <strong>${location.username}</strong><br>
+                    <small>${location.email}</small><br>
+                    Status: <span style="color: ${isActive ? '#51cf66' : '#ced4da'}">
+                        ${isActive ? 'Active' : 'Inactive'}
+                    </span><br>
+                    Last updated: ${new Date(location.timestamp * 1000).toLocaleTimeString()}<br>
+                    Coordinates: ${location.latitude.toFixed(6)}, ${location.longitude.toFixed(6)}
+                </div>
+            `);
+
+                userMarkers[location.user_id] = marker;
+            });
+
+            const markers = Object.values(userMarkers);
+            if (markers.length > 0) {
+                const group = new L.featureGroup(markers);
+                caretakerMap.fitBounds(group.getBounds().pad(0.1));
+            }
+        }
+
+        async function loadUsersForRouteHistory() {
+            try {
+                const response = await fetch('/api/caretaker/user_locations');
+                const data = await response.json();
+
+                const select = document.getElementById('routeUserSelect');
+                select.innerHTML = '<option value="">Select User</option>';
+
+                if (data.status === 'success' && data.locations && data.locations.length > 0) {
+                    console.log('Loaded users from locations:', data.locations);
+                    data.locations.forEach(location => {
+                        const option = document.createElement('option');
+                        option.value = location.user_id;
+                        option.textContent = `${location.username} (${location.email})`;
+                        select.appendChild(option);
+                    });
+                } else {
+                    const activityResponse = await fetch('/api/caretaker/user_activity');
+                    const activityData = await activityResponse.json();
+
+                    if (activityData.status === 'success') {
+                        console.log('Loaded users from activity:', activityData.user_activity);
+                        activityData.user_activity.forEach((user, index) => {
+                            const option = document.createElement('option');
+                            option.value = user.user_id || user.id || (index + 1);
+                            option.textContent = `${user.username} (${user.email})`;
+                            select.appendChild(option);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading users for route history:', error);
+                showNotification('Failed to load user list', 'error');
+            }
+        }
+
+        async function loadUserRouteHistory(userId) {
+            if (!userId) {
+                Object.values(routeLayers).forEach(layer => {
+                    if (routeHistoryMap && layer) {
+                        routeHistoryMap.removeLayer(layer);
+                    }
+                });
+                routeLayers = {};
+                document.getElementById('routeInfo').innerHTML = 'Select a user to view their navigation history';
+                return;
+            }
+
+            try {
+                document.getElementById('routeInfo').innerHTML = `
+            <div style="text-align: center; padding: 1rem;">
+                <i class="fas fa-spinner fa-spin"></i>
+                <div style="margin-top: 0.5rem;">Loading route history...</div>
+            </div>
+        `;
+
+                console.log(`Loading route history for user ID: ${userId}`);
+
+                const response = await fetch(`/api/caretaker/user_routes/${userId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin'
+                });
+
+                console.log(`Response status: ${response.status}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Route data received:', data);
+
+                if (data.status === 'success') {
+                    if (data.routes && data.routes.length > 0) {
+                        console.log(`Found ${data.routes.length} routes`);
+                        displayRouteHistory(data.routes);
+                        updateRouteInfo(data.routes);
+                    } else {
+                        console.log('No routes found');
+                        showNotification('No route history found for this user', 'info');
+                        document.getElementById('routeInfo').innerHTML = 'No navigation history found for this user';
+
+                        Object.values(routeLayers).forEach(layer => {
+                            if (routeHistoryMap && layer) {
+                                routeHistoryMap.removeLayer(layer);
+                            }
+                        });
+                        routeLayers = {};
+                    }
+                } else {
+                    console.error('API returned error:', data.message);
+                    showNotification('Error loading route history: ' + (data.message || 'Unknown error'), 'error');
+                    document.getElementById('routeInfo').innerHTML = 'Error loading route history';
+                }
+            } catch (error) {
+                console.error('Error loading route history:', error);
+                showNotification('Error loading route history: ' + error.message, 'error');
+                document.getElementById('routeInfo').innerHTML = `
+            <div style="color: var(--danger);">
+                <i class="fas fa-exclamation-triangle"></i>
+                Error loading route history: ${error.message}
+            </div>
+        `;
+            }
+        }
+
+        function showLoading(message) {
+            const routeInfo = document.getElementById('routeInfo');
+            routeInfo.innerHTML = `
+        <div style="text-align: center; padding: 1rem;">
+            <i class="fas fa-spinner fa-spin"></i>
+            <div style="margin-top: 0.5rem;">${message}</div>
+        </div>
+    `;
+        }
+
+        async function displayRouteHistory(routes) {
+            Object.values(routeLayers).forEach(layer => {
+                routeHistoryMap.removeLayer(layer);
+            });
+            routeLayers = {};
+
+            const existingLegend = document.getElementById('routeColorLegend');
+            if (existingLegend) existingLegend.remove();
+
+            if (!routes || routes.length === 0) {
+                document.getElementById('routeInfo').innerHTML = 'No navigation history found for this user';
+                return;
+            }
+
+            console.log('[Route Display] Processing', routes.length, 'routes...');
+
+            const ROUTE_COLORS = [
+                '#3b82f6', 
+                '#10b981', 
+                '#f59e0b', 
+                '#ef4444', 
+                '#8b5cf6', 
+                '#ec4899', 
+                '#06b6d4', 
+                '#f97316', 
+                '#84cc16', 
+                '#a855f7', 
+                '#14b8a6',
+                '#fb923c', 
+            ];
+
+            const sortedRoutes = [...routes].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+            const legendEntries = [];
+
+            for (let routeIndex = 0; routeIndex < sortedRoutes.length; routeIndex++) {
+                const route = sortedRoutes[routeIndex];
+                const color = ROUTE_COLORS[routeIndex % ROUTE_COLORS.length];
+                const routeDate = new Date(route.timestamp);
+                const routeLabel = `Route ${routeIndex + 1} — ${routeDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} ${routeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+                legendEntries.push({ color, label: routeLabel, completed: route.completed, safety: route.safety_score });
+
+                if (route.start_lat && route.start_lng && route.end_lat && route.end_lng) {
+                    console.log(`[Route Display] Route ${routeIndex + 1}: (${route.start_lat}, ${route.start_lng}) → (${route.end_lat}, ${route.end_lng})`);
+
+                    const startIcon = L.divIcon({
+                        className: 'route-start-marker',
+                        html: `<div style="
+                    background: ${color};
+                    color: white;
+                    border-radius: 50%;
+                    width: 22px; height: 22px;
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: 10px; font-weight: bold;
+                    border: 2px solid white;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+                ">${routeIndex + 1}</div>`,
+                        iconSize: [22, 22],
+                        iconAnchor: [11, 11]
+                    });
+
+                    const startMarker = L.marker([route.start_lat, route.start_lng], { icon: startIcon })
+                        .addTo(routeHistoryMap)
+                        .bindPopup(`
+                    <div style="min-width:180px">
+                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+                            <span style="background:${color};color:white;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">${routeIndex + 1}</span>
+                            <strong>Route ${routeIndex + 1} — Start</strong>
+                        </div>
+                        <b>🕐</b> ${routeDate.toLocaleString()}<br>
+                        <b>🛡️</b> Safety: ${route.safety_score || 'N/A'}/100<br>
+                        <b>📏</b> Distance: ${route.distance_km || 'N/A'} km
+                    </div>
+                `);
+
+                    routeLayers[`start_${route.id}`] = startMarker;
+
+                    if (route.completed) {
+                        const endIcon = L.divIcon({
+                            className: 'route-end-marker',
+                            html: `<div style="
+                        background: white;
+                        color: ${color};
+                        border-radius: 50%;
+                        width: 22px; height: 22px;
+                        display: flex; align-items: center; justify-content: center;
+                        font-size: 12px;
+                        border: 2px solid ${color};
+                        box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+                    ">✓</div>`,
+                            iconSize: [22, 22],
+                            iconAnchor: [11, 11]
+                        });
+
+                        const endMarker = L.marker([route.end_lat, route.end_lng], { icon: endIcon })
+                            .addTo(routeHistoryMap)
+                            .bindPopup(`
+                        <div style="min-width:160px">
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+                                <span style="background:${color};color:white;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold">${routeIndex + 1}</span>
+                                <strong>Route ${routeIndex + 1} — End</strong>
+                            </div>
+                            <b>✅</b> Completed<br>
+                            <b>🛡️</b> Safety: ${route.safety_score || 'N/A'}/100
+                        </div>
+                    `);
+
+                        routeLayers[`end_${route.id}`] = endMarker;
+                    }
+
+                    try {
+                        console.log(`[OSRM] Fetching walking route ${routeIndex + 1}...`);
+
+                        const walkingRoute = await fetchWalkingRoute(
+                            route.start_lng, route.start_lat,
+                            route.end_lng, route.end_lat
+                        );
+
+                        if (walkingRoute && walkingRoute.coordinates) {
+                            console.log(`[OSRM] Found route with ${walkingRoute.coordinates.length} points`);
+
+                            const latLngs = walkingRoute.coordinates.map(coord => [coord[1], coord[0]]);
+
+                            const shadowLine = L.polyline(latLngs, {
+                                color: 'rgba(0,0,0,0.25)',
+                                weight: 7,
+                                opacity: 1,
+                                lineJoin: 'round',
+                                lineCap: 'round'
+                            }).addTo(routeHistoryMap);
+                            routeLayers[`shadow_${route.id}`] = shadowLine;
+
+                            const routeLine = L.polyline(latLngs, {
+                                color: color,
+                                weight: 5,
+                                opacity: 0.85,
+                                lineJoin: 'round',
+                                lineCap: 'round'
+                            }).addTo(routeHistoryMap).bindPopup(`
+                        <div style="min-width:190px">
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+                                <span style="background:${color};color:white;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:bold">Route ${routeIndex + 1}</span>
+                            </div>
+                            <b>📅</b> ${routeDate.toLocaleDateString()}<br>
+                            <b>📏</b> ${(walkingRoute.distance / 1000).toFixed(2)} km<br>
+                            <b>⏱️</b> ${(walkingRoute.duration / 60).toFixed(0)} min<br>
+                            <b>🛡️</b> Safety: ${route.safety_score || 'N/A'}/100
+                        </div>
+                    `);
+
+                            routeLayers[`line_${route.id}`] = routeLine;
+                            console.log(`[Route Display] Drew route ${routeIndex + 1} with ${latLngs.length} points`);
+                        } else {
+                            console.warn(`[OSRM] No coordinates, drawing straight line`);
+                            drawStraightLineRoute(route, routeHistoryMap, routeLayers, color, routeIndex);
+                        }
+                    } catch (error) {
+                        console.error(`[OSRM] Error fetching route:`, error);
+                        drawStraightLineRoute(route, routeHistoryMap, routeLayers, color, routeIndex);
+                    }
+                }
+            }
+
+            const allLayers = Object.values(routeLayers);
+            if (allLayers.length > 0) {
+                const group = new L.featureGroup(allLayers);
+                routeHistoryMap.fitBounds(group.getBounds().pad(0.1));
+            }
+
+            if (legendEntries.length > 0) {
+                const legendEl = document.createElement('div');
+                legendEl.id = 'routeColorLegend';
+                legendEl.style.cssText = `
+            margin-top: 1rem;
+            padding: 0.9rem 1rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.2rem;
+            font-size: 0.82rem;
+        `;
+                legendEl.innerHTML = `
+            <div style="width:100%;font-weight:600;color:var(--text-muted);margin-bottom:0.3rem;font-size:0.78rem;letter-spacing:0.05em;text-transform:uppercase;">
+                <i class="fas fa-map-signs" style="margin-right:0.4rem;"></i>Route Legend
+            </div>
+            ${legendEntries.map((e, i) => `
+                <div style="display:flex;align-items:center;gap:0.45rem;">
+                    <span style="
+                        display:inline-block;
+                        width:28px; height:5px;
+                        background:${e.color};
+                        border-radius:3px;
+                        flex-shrink:0;
+                    "></span>
+                    <span style="
+                        background:${e.color};
+                        color:white;
+                        border-radius:50%;
+                        width:16px; height:16px;
+                        display:inline-flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:9px;
+                        font-weight:bold;
+                        flex-shrink:0;
+                    ">${i + 1}</span>
+                    <span style="color:var(--text-light);">${e.label}</span>
+                    ${e.completed
+                        ? `<span style="color:#51cf66;font-size:10px;">✓</span>`
+                        : `<span style="color:#ffd43b;font-size:10px;">…</span>`
+                    }
+                </div>
+            `).join('')}
+        `;
+
+                const routeCard = document.getElementById('routeHistoryMap').closest('.chart-card');
+                const routeInfo = document.getElementById('routeInfo');
+                routeCard.insertBefore(legendEl, routeInfo);
+            }
+
+            console.log('[Route Display] Completed drawing routes');
+        }
+
+        async function fetchWalkingRoute(startLng, startLat, endLng, endLat) {
+            try {
+                const url = `https://router.project-osrm.org/route/v1/foot/${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson`;
+
+                console.log('[OSRM] Fetching route:', url);
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.routes && data.routes.length > 0) {
+                    const route = data.routes[0];
+                    console.log('[OSRM] Response:', {
+                        distance: route.distance,
+                        duration: route.duration,
+                        points: route.geometry.coordinates.length
+                    });
+
+                    return {
+                        coordinates: route.geometry.coordinates,
+                        distance: route.distance,
+                        duration: route.duration
+                    };
+                }
+
+                console.warn('[OSRM] No routes found in response');
+                return null;
+            } catch (error) {
+                console.error('[OSRM] Error:', error);
+                throw error;
+            }
+        }
+
+        function drawStraightLineRoute(route, map, layers, color, index) {
+            const straightLine = L.polyline([
+                [route.start_lat, route.start_lng],
+                [route.end_lat, route.end_lng]
+            ], {
+                color: color,
+                weight: 3,
+                opacity: 0.5,
+                dashArray: '10, 10'
+            }).addTo(map).bindPopup(`<strong>Straight Line Route</strong><br>OSRM route not available<br>Safety: ${route.safety_score || 'N/A'}/100`);
+
+            layers[`line_${route.id}`] = straightLine;
+        }
+
+        function updateRouteInfo(routes) {
+            if (!routes || routes.length === 0) return;
+
+            const totalDistance = routes.reduce((sum, route) => sum + (route.distance_km || 0), 0);
+            const completedRoutes = routes.filter(route => route.completed).length;
+            const avgSafety = routes.reduce((sum, route) => sum + (route.safety_score || 0), 0) / routes.length;
+
+            document.getElementById('routeInfo').innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent);">${routes.length}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Total Routes</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent);">${totalDistance.toFixed(1)} km</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Total Distance</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent);">${avgSafety.toFixed(0)}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Avg Safety Score</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; font-size: 0.9rem;">
+                    ${completedRoutes} of ${routes.length} routes completed (${((completedRoutes / routes.length) * 100).toFixed(1)}%)
+                </div>
+            `;
+        }
+
+        function refreshUserLocations() {
+            fetch('/api/caretaker/user_activity')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        loadUsersForRouteHistory();
+                        loadUserLocations();
+                        showNotification('User locations refreshed', 'success');
+                    }
+                });
+        }
+
+        function showAllUsers() {
+            const markers = Object.values(userMarkers);
+            if (markers.length > 0) {
+                const group = new L.featureGroup(markers);
+                caretakerMap.fitBounds(group.getBounds().pad(0.1));
+            }
+        }
+
+        function centerOnActiveUsers() {
+            const activeMarkers = Object.values(userMarkers).filter(marker => {
+                return marker.options.icon.options.className.includes('active');
+            });
+
+            if (activeMarkers.length > 0) {
+                const group = new L.featureGroup(activeMarkers);
+                caretakerMap.fitBounds(group.getBounds().pad(0.1));
+            }
+        }
+
+        function addNotification(notification) {
+            notifications.unshift({
+                ...notification,
+                id: Date.now(),
+                read: false,
+                timestamp: new Date().toISOString()
+            });
+
+            if (notifications.length > 50) {
+                notifications.pop();
+            }
+
+            updateNotificationCount();
+
+            updateNotificationList();
+
+            if (Notification.permission === 'granted') {
+                showDesktopNotification(notification);
+            }
+
+            if (notification.priority === 'high') {
+                playNotificationSound();
+            }
+        }
+
+        function updateNotificationCount() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            document.getElementById('notificationCount').textContent = unreadCount;
+        }
+
+        function updateNotificationList() {
+            const notificationList = document.getElementById('notificationList');
+
+            if (notifications.length === 0) {
+                notificationList.innerHTML = `
+                    <div class="no-notifications">
+                        <i class="fas fa-bell-slash"></i>
+                        <p style="margin: 0; color: var(--text-muted);">No new notifications</p>
+                    </div>
+                `;
+                return;
+            }
+
+            notificationList.innerHTML = notifications.map(notification => `
+                <div class="notification-item ${notification.priority === 'high' ? 'critical' : ''} ${!notification.read ? 'unread' : ''}" 
+                     onclick="markNotificationAsRead(${notification.id})">
+                    <div class="notification-title">
+                        <i class="fas fa-${getNotificationIcon(notification.type)}"></i>
+                        ${notification.title}
+                    </div>
+                    <div class="notification-message">${notification.message}</div>
+                    <div class="notification-time">
+                        <i class="far fa-clock"></i>
+                        ${formatTimeAgo(notification.timestamp)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                'risk': 'exclamation-triangle',
+                'navigation': 'route',
+                'user': 'user',
+                'system': 'cog',
+                'alert': 'bell'
+            };
+            return icons[type] || 'bell';
+        }
+
+        function formatTimeAgo(timestamp) {
+            const now = new Date();
+            const then = new Date(timestamp);
+            const diff = Math.floor((now - then) / 1000);
+
+            if (diff < 60) return 'just now';
+            if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+            return `${Math.floor(diff / 86400)} days ago`;
+        }
+
+        function markNotificationAsRead(id) {
+            const notification = notifications.find(n => n.id === id);
+            if (notification) {
+                notification.read = true;
+                updateNotificationCount();
+                updateNotificationList();
+            }
+        }
+
+        function markAllAsRead() {
+            notifications.forEach(notification => {
+                notification.read = true;
+            });
+            updateNotificationCount();
+            updateNotificationList();
+        }
+
+        function toggleNotificationPanel() {
+            const panel = document.getElementById('notificationPanel');
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                panel.style.display = 'block';
+            }
+        }
+
+        function showDesktopNotification(notification) {
+            if (document.hidden) {
+                new Notification(notification.title, {
+                    body: notification.message,
+                    icon: '/static/favicon.ico',
+                    tag: 'beyondvision-notification'
+                });
+            }
+        }
+
+        function playNotificationSound() {
+            const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');
+            audio.volume = 0.3;
+            audio.play().catch(() => {
+            });
+        }
+
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            addNotification({
+                type: 'system',
+                title: type.charAt(0).toUpperCase() + type.slice(1),
+                message: message,
+                priority: type === 'error' ? 'high' : 'medium'
+            });
+        }
+
+        function getRiskColor(riskLevel) {
+            switch (riskLevel) {
+                case 'Safe': return '#51cf66';
+                case 'Moderate': return '#ffd43b';
+                case 'Risky': return '#ff6b6b';
+                case 'Dangerous': return '#c70000';
+                default: return '#ced4da';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeMaps();
+            requestNotificationPermission();
+
+            checkForRiskAlerts();
+
+            setInterval(checkForRiskAlerts, 60000);
+
+            document.addEventListener('click', function (event) {
+                const panel = document.getElementById('notificationPanel');
+                const bell = document.querySelector('.notification-bell');
+                if (panel && panel.style.display === 'block' &&
+                    !panel.contains(event.target) &&
+                    !bell.contains(event.target)) {
+                    panel.style.display = 'none';
+                }
+            });
+        });
+
+        async function checkForRiskAlerts() {
+            try {
+                const response = await fetch('/api/caretaker/risk_alerts');
+                const data = await response.json();
+
+                if (data.status === 'success' && data.risk_alerts && data.risk_alerts.length > 0) {
+                    const recentAlerts = data.risk_alerts.filter(alert => {
+                        const alertTime = new Date(alert.timestamp).getTime();
+                        return (Date.now() - alertTime) < 300000;
+                    });
+
+                    recentAlerts.forEach(alert => {
+                        addNotification({
+                            type: 'risk',
+                            title: `${alert.risk_level} Risk Alert`,
+                            message: `${alert.username} has ${alert.risk_level.toLowerCase()} risk level (Score: ${alert.risk_score})`,
+                            priority: alert.risk_level === 'Dangerous' ? 'high' : 'medium'
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Error checking risk alerts:', error);
+            }
+        }
+
+        async function loadDashboardData() {
+            try {
+                document.getElementById('updateTime').textContent = 'Loading...';
+
+                const analyticsResponse = await fetch('/api/caretaker/analytics');
+                const analyticsData = await analyticsResponse.json();
+
+                if (analyticsData.status === 'success') {
+                    updateStats(analyticsData.analytics);
+                    updateCharts(analyticsData.analytics);
+                } else {
+                    throw new Error('Failed to load analytics data');
+                }
+
+                const alertsResponse = await fetch('/api/caretaker/risk_alerts');
+                const alertsData = await alertsResponse.json();
+
+                if (alertsData.status === 'success') {
+                    updateAlerts(alertsData.risk_alerts);
+                } else {
+                    throw new Error('Failed to load alerts data');
+                }
+
+                const activityResponse = await fetch('/api/caretaker/user_activity');
+                const activityData = await activityResponse.json();
+
+                if (activityData.status === 'success') {
+                    updateUserActivity(activityData.user_activity);
+                } else {
+                    throw new Error('Failed to load user activity data');
+                }
+
+                document.getElementById('updateTime').textContent = new Date().toLocaleString();
+
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showError('Failed to load dashboard data. Please check your connection and try again.');
+            }
+        }
+
+        function updateStats(analytics) {
+            document.getElementById('totalUsers').textContent = analytics.total_users || 0;
+            document.getElementById('activeToday').textContent = analytics.active_today || 0;
+
+            const totalObstacles = analytics.obstacle_stats ?
+                analytics.obstacle_stats.reduce((sum, stat) => sum + (stat.count || 0), 0) : 0;
+            document.getElementById('obstacleDetections').textContent = totalObstacles;
+
+            const riskAlerts = analytics.environment_stats ?
+                analytics.environment_stats
+                    .filter(stat => stat.risk_level === 'Risky' || stat.risk_level === 'Dangerous')
+                    .reduce((sum, stat) => sum + (stat.count || 0), 0) : 0;
+            document.getElementById('riskAlerts').textContent = riskAlerts;
+        }
+
+        function updateCharts(analytics) {
+            const obstacleData = analytics.obstacle_stats || [
+                { detection_type: 'Potholes', count: 25 },
+                { detection_type: 'Obstacles', count: 18 },
+                { detection_type: 'Curbs', count: 12 },
+                { detection_type: 'Other', count: 8 }
+            ];
+
+            const riskData = analytics.environment_stats || [
+                { risk_level: 'Safe', count: 45 },
+                { risk_level: 'Moderate', count: 25 },
+                { risk_level: 'Risky', count: 15 },
+                { risk_level: 'Dangerous', count: 5 }
+            ];
+
+            const ocrData = analytics.ocr_stats || Array.from({ length: 7 }, (_, i) => ({
+                date: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                usage_count: Math.floor(Math.random() * 20) + 5
+            }));
+
+            const activityData = analytics.daily_activity || Array.from({ length: 7 }, (_, i) => ({
+                date: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                active_users: Math.floor(Math.random() * 15) + 5,
+                total_events: Math.floor(Math.random() * 50) + 20
+            }));
+
+            if (obstacleChart) obstacleChart.destroy();
+            const obstacleCtx = document.getElementById('obstacleChart').getContext('2d');
+            obstacleChart = new Chart(obstacleCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: obstacleData.map(stat => stat.detection_type),
+                    datasets: [{
+                        data: obstacleData.map(stat => stat.count),
+                        backgroundColor: [
+                            chartColors.primary,
+                            chartColors.accent,
+                            chartColors.success,
+                            chartColors.warning
+                        ],
+                        borderColor: chartColors.textLight,
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 12
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: chartColors.textLight,
+                            bodyColor: chartColors.textLight,
+                            borderColor: chartColors.primary,
+                            borderWidth: 1
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+
+            if (riskChart) riskChart.destroy();
+            const riskCtx = document.getElementById('riskChart').getContext('2d');
+            riskChart = new Chart(riskCtx, {
+                type: 'bar',
+                data: {
+                    labels: riskData.map(stat => stat.risk_level),
+                    datasets: [{
+                        label: 'Count',
+                        data: riskData.map(stat => stat.count),
+                        backgroundColor: riskData.map(stat =>
+                            stat.risk_level === 'Safe' ? chartColors.success :
+                                stat.risk_level === 'Moderate' ? chartColors.warning :
+                                    stat.risk_level === 'Risky' ? chartColors.danger : 'rgba(199, 0, 0, 0.9)'
+                        ),
+                        borderColor: riskData.map(stat =>
+                            stat.risk_level === 'Safe' ? chartColors.success :
+                                stat.risk_level === 'Moderate' ? chartColors.warning :
+                                    stat.risk_level === 'Risky' ? chartColors.danger : 'rgba(199, 0, 0, 1)'
+                        ),
+                        borderWidth: 2,
+                        borderRadius: 6,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: chartColors.gridLines,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 11
+                                },
+                                padding: 8
+                            },
+                            border: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: chartColors.gridLines,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 11
+                                },
+                                padding: 8
+                            },
+                            border: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: chartColors.textLight,
+                            bodyColor: chartColors.textLight,
+                            borderColor: chartColors.primary,
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+
+            if (ocrChart) ocrChart.destroy();
+            const ocrCtx = document.getElementById('ocrChart').getContext('2d');
+            ocrChart = new Chart(ocrCtx, {
+                type: 'line',
+                data: {
+                    labels: ocrData.map(stat => new Date(stat.date).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    })),
+                    datasets: [{
+                        label: 'OCR Usage',
+                        data: ocrData.map(stat => stat.usage_count),
+                        borderColor: chartColors.accent,
+                        backgroundColor: chartColors.accentLight,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: chartColors.textLight,
+                        pointBorderColor: chartColors.accent,
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: chartColors.textLight,
+                        pointHoverBorderColor: chartColors.accent,
+                        pointHoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: chartColors.gridLines,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 11
+                                },
+                                padding: 8
+                            },
+                            border: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: chartColors.gridLines,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 11
+                                },
+                                padding: 8
+                            },
+                            border: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: chartColors.textLight,
+                            bodyColor: chartColors.textLight,
+                            borderColor: chartColors.accent,
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+
+            if (activityChart) activityChart.destroy();
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            activityChart = new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: activityData.map(stat => new Date(stat.date).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                    })),
+                    datasets: [
+                        {
+                            label: 'Active Users',
+                            data: activityData.map(stat => stat.active_users),
+                            borderColor: chartColors.success,
+                            backgroundColor: chartColors.successLight,
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: chartColors.textLight,
+                            pointBorderColor: chartColors.success,
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 8
+                        },
+                        {
+                            label: 'Total Events',
+                            data: activityData.map(stat => stat.total_events),
+                            borderColor: chartColors.danger,
+                            backgroundColor: chartColors.dangerLight,
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: chartColors.textLight,
+                            pointBorderColor: chartColors.danger,
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 8
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: chartColors.gridLines,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 11
+                                },
+                                padding: 8
+                            },
+                            border: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: chartColors.gridLines,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 11
+                                },
+                                padding: 8
+                            },
+                            border: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: chartColors.textLight,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: chartColors.textLight,
+                            bodyColor: chartColors.textLight,
+                            borderColor: chartColors.primary,
+                            borderWidth: 1,
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        function updateAlerts(alerts) {
+            const container = document.getElementById('alertsContainer');
+
+            if (!alerts || alerts.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data">
+                        <i class="fas fa-check-circle"></i>
+                        <div>No recent risk alerts</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">All systems are operating normally</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = alerts.map(alert => `
+                <div class="alert-item ${alert.risk_level === 'Dangerous' ? '' : 'warning'}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
+                        <div>
+                            <strong style="color: var(--text-light); font-size: 1.1rem;">${alert.username || 'Unknown User'}</strong>
+                            <div style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.2rem;">
+                                ${alert.email || ''}
+                            </div>
+                        </div>
+                        <span class="risk-badge risk-${alert.risk_level.toLowerCase()}">
+                            <i class="fas fa-exclamation-triangle"></i> ${alert.risk_level} (${alert.risk_score || 0})
+                        </span>
+                    </div>
+                    <div style="color: var(--text-light); font-size: 0.95rem;">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <span style="display: flex; align-items: center; gap: 0.3rem;">
+                                <i class="fas fa-cloud" style="color: var(--accent);"></i> ${alert.weather || 'Unknown'}
+                            </span>
+                            <span style="display: flex; align-items: center; gap: 0.3rem;">
+                                <i class="fas fa-lightbulb" style="color: var(--warning);"></i> ${alert.light_level || 0}%
+                            </span>
+                            <span style="display: flex; align-items: center; gap: 0.3rem;">
+                                <i class="fas fa-thermometer-half" style="color: var(--danger);"></i> ${alert.temperature || 'N/A'}°C
+                            </span>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 0.8rem; border-radius: 8px; margin: 0.5rem 0;">
+                            <i class="fas fa-info-circle" style="color: var(--accent); margin-right: 0.5rem;"></i>
+                            ${alert.advice || 'No specific advice available'}
+                        </div>
+                        <div style="margin-top: 0.8rem; font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                            <span style="display: flex; align-items: center; gap: 0.3rem;">
+                                <i class="far fa-clock"></i> ${alert.timestamp ? new Date(alert.timestamp).toLocaleString() : 'Unknown time'}
+                            </span>
+                            ${alert.location ? `
+                                <span style="display: flex; align-items: center; gap: 0.3rem;">
+                                    <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> ${alert.location}
+                                </span>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateUserActivity(users) {
+            const container = document.getElementById('userActivityContainer');
+
+            if (!users || users.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data">
+                        <i class="fas fa-users"></i>
+                        <div>No user activity data available</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">Check back later for user activity information</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <table class="activity-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Last Login</th>
+                            <th>Obstacles</th>
+                            <th>Risk Checks</th>
+                            <th>OCR Uses</th>
+                            <th>Last Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${users.map(user => `
+                            <tr>
+                                <td>
+                                    <div><strong>${user.username || 'Unknown'}</strong></div>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted);">${user.email || ''}</div>
+                                </td>
+                                <td>
+                                    <div class="user-status">
+                                        <span class="status-dot ${user.is_active ? '' : 'inactive'}"></span>
+                                        <span style="color: ${user.is_active ? 'var(--success)' : 'var(--text-muted)'};">
+                                            ${user.is_active ? 'Active' : 'Inactive'}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td style="color: var(--text-light);">
+                                    ${user.last_login ? new Date(user.last_login).toLocaleDateString() : 'Never'}
+                                </td>
+                                <td style="color: var(--info); font-weight: 600; text-align: center;">
+                                    ${user.obstacle_detections || 0}
+                                </td>
+                                <td style="color: var(--warning); font-weight: 600; text-align: center;">
+                                    ${user.risk_checks || 0}
+                                </td>
+                                <td style="color: var(--success); font-weight: 600; text-align: center;">
+                                    ${user.ocr_uses || 0}
+                                </td>
+                                <td>
+                                    <div style="color: var(--text-light);">
+                                        ${user.last_activity ? new Date(user.last_activity).toLocaleDateString() : 'No activity'}
+                                    </div>
+                                    ${user.last_activity ?
+                    `<div style="font-size: 0.85rem; color: var(--text-muted);">
+                                            ${new Date(user.last_activity).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </div>` : ''
+                }
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function showError(message) {
+            const alertsContainer = document.getElementById('alertsContainer');
+            alertsContainer.innerHTML = `
+                <div class="alert-item" style="background: rgba(255, 107, 107, 0.2); border-left-color: var(--danger);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-circle" style="color: var(--danger); font-size: 1.2rem;"></i>
+                        <strong style="color: var(--danger); font-size: 1.1rem;">Error Loading Data</strong>
+                    </div>
+                    <div style="color: var(--text-light); margin-bottom: 1rem;">
+                        ${message}
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button onclick="loadDashboardData()" style="
+                            background: linear-gradient(135deg, var(--primary), var(--accent));
+                            color: white;
+                            border: none;
+                            padding: 0.6rem 1.2rem;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            transition: var(--transition);
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            font-weight: 600;
+                        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(34, 184, 207, 0.4)'" 
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <i class="fas fa-redo"></i> Retry Loading
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelector('.nav-links');
+            const refreshBtn = document.createElement('a');
+            refreshBtn.href = '#';
+            refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+            refreshBtn.style.cssText = `
+                background: var(--glass-bg);
+                color: var(--text-light);
+                text-decoration: none;
+                padding: 0.6rem 1.2rem;
+                border-radius: 30px;
+                transition: var(--transition);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                border: 1px solid var(--glass-border);
+                cursor: pointer;
+            `;
+            refreshBtn.onclick = function (e) {
+                e.preventDefault();
+                loadDashboardData();
+                const icon = this.querySelector('i');
+                icon.classList.add('fa-spin');
+                setTimeout(() => {
+                    icon.classList.remove('fa-spin');
+                }, 1000);
+            };
+
+            navLinks.insertBefore(refreshBtn, navLinks.children[1]);
+
+            loadDashboardData();
+        });
+
+        setInterval(loadDashboardData, 120000);
+    </script>
+</body>
+
+</html>

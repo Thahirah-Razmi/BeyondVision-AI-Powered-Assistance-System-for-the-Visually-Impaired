@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BeyondVision</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #5c7cfa;
+            --primary-hover: #4c6ef5;
+            --accent: #22b8cf;
+            --text-light: #f1f3f5;
+            --text-muted: #ced4da;
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --radius: 14px;
+            --blur: blur(14px);
+            --transition: 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1c1f4a, #1b6ca8);
+            color: var(--text-light);
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 420px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            padding: 2.5rem 2rem 1.5rem;
+        }
+
+        .login-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.9rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-header p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.4rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.6rem;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-group input::placeholder {
+            color: #dee2e6;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(92, 124, 250, 0.35);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 0.9rem;
+            top: 2.2rem;
+            color: #dee2e6;
+        }
+
+        .forgot-password {
+            display: block;
+            margin-top: 0.4rem;
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 184, 207, 0.4);
+        }
+
+        .login-footer {
+            text-align: center;
+            padding: 1.5rem 2rem 2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .register-link {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.25);
+            color: #ffd6d9;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.25);
+            color: #d3f9d8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <i class="fas fa-route login-icon"></i>
+            <h1>BeyondVision</h1>
+            <p>Restoring Independence, Creating Opportunity</p>
+        </div>
+
+        <div class="login-body">
+            {% if error %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            {% if success %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> {{ success }}
+            </div>
+            {% endif %}
+
+            {% if request.args.get('success') %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> {{ request.args.get('success') }}
+            </div>
+            {% endif %}
+
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Please enter your username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Please enter your password"
+                        required>
+                    <a href="/forget_password" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+        </div>
+
+        <div class="login-footer">
+            <p>Don't have an account? <a href="/register" class="register-link">Register now</a></p>
+        </div>
+    </div>
+</body>
+
+</html>
