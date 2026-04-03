@@ -241,65 +241,65 @@ The application will run at http://127.0.0.1:5000/
 ## 📸 Visual Previews
 
 ### Login Page
-![Login Page]<img width="1181" height="627" alt="image" src="https://github.com/user-attachments/assets/bce307be-9bcc-4643-bd33-ca8b82eda6e6" />
+<img width="1181" height="627" alt="image" src="https://github.com/user-attachments/assets/bce307be-9bcc-4643-bd33-ca8b82eda6e6" />
 
 ### Registration Page
 
-![Restration Page] <img width="1180" height="791" alt="image" src="https://github.com/user-attachments/assets/32e69a7c-8cf9-47df-b6e0-ab05785eb45e" />
+<img width="1180" height="791" alt="image" src="https://github.com/user-attachments/assets/32e69a7c-8cf9-47df-b6e0-ab05785eb45e" />
 
 ###Forget Password Page
 
-![Forget Password Page] <img width="1181" height="658" alt="image" src="https://github.com/user-attachments/assets/15474230-272a-4035-be27-a0d9227d3378" />
+<img width="1181" height="658" alt="image" src="https://github.com/user-attachments/assets/15474230-272a-4035-be27-a0d9227d3378" />
 
 ### Main User Interface (Blind End)
-![Main Interface] <img width="1181" height="988" alt="image" src="https://github.com/user-attachments/assets/13dc3555-ba92-42ca-9480-3edf64079253" />
-![Main Interface] <img width="1181" height="1036" alt="image" src="https://github.com/user-attachments/assets/4118c8f7-beb7-42b6-b728-6efbfbd2c5fd" />
-![Main Interface] <img width="1181" height="695" alt="image" src="https://github.com/user-attachments/assets/beac2b2c-f38b-4252-a7e2-4a6d8905db10" />
-![Main Interface] <img width="1181" height="552" alt="image" src="https://github.com/user-attachments/assets/71fd516c-8f82-4c03-85a5-213a11a9da16" />
-![Main Interface] <img width="1181" height="614" alt="image" src="https://github.com/user-attachments/assets/3e030400-07d8-4315-9fa9-bb9c943ca463" />
-![Main Interface] <img width="1181" height="672" alt="image" src="https://github.com/user-attachments/assets/74496e41-9760-4b22-ab02-ebc4c59db9f5" />
-![Main Interface] <img width="1063" height="1299" alt="image" src="https://github.com/user-attachments/assets/6b4c8644-b37e-4d7e-a48a-1bfef91ed09b" />
-![Main Interface] <img width="1063" height="985" alt="image" src="https://github.com/user-attachments/assets/5ac3c85e-268d-4f3f-9fef-88cf1d8268a3" />
-![Main Interface] <img width="1063" height="991" alt="image" src="https://github.com/user-attachments/assets/7babc173-738c-4dfa-9169-977595676b95" />
-![Main Interface] <img width="1063" height="1057" alt="image" src="https://github.com/user-attachments/assets/f2b089e2-270d-48b0-94f7-ec86fbadd031" />
-![Main Interface] <img width="1063" height="841" alt="image" src="https://github.com/user-attachments/assets/0ec84c86-c43d-4a62-ae89-c057ca12b668" />
-![Main Interface] <img width="1063" height="969" alt="image" src="https://github.com/user-attachments/assets/f4137f13-f4ff-4785-91cd-fc29c11ab01e" />
-![Main Interface] <img width="1063" height="965" alt="image" src="https://github.com/user-attachments/assets/0131cbef-8bdb-4d20-8c10-d093529ad290" />
-![Main Interface] <img width="1181" height="559" alt="image" src="https://github.com/user-attachments/assets/d65f81cd-2988-4422-a42b-aadb2641824f" />
+<img width="1181" height="988" alt="image" src="https://github.com/user-attachments/assets/13dc3555-ba92-42ca-9480-3edf64079253" />
+<img width="1181" height="1036" alt="image" src="https://github.com/user-attachments/assets/4118c8f7-beb7-42b6-b728-6efbfbd2c5fd" />
+<img width="1181" height="695" alt="image" src="https://github.com/user-attachments/assets/beac2b2c-f38b-4252-a7e2-4a6d8905db10" />
+<img width="1181" height="552" alt="image" src="https://github.com/user-attachments/assets/71fd516c-8f82-4c03-85a5-213a11a9da16" />
+<img width="1181" height="614" alt="image" src="https://github.com/user-attachments/assets/3e030400-07d8-4315-9fa9-bb9c943ca463" />
+<img width="1181" height="672" alt="image" src="https://github.com/user-attachments/assets/74496e41-9760-4b22-ab02-ebc4c59db9f5" />
+<img width="1063" height="1299" alt="image" src="https://github.com/user-attachments/assets/6b4c8644-b37e-4d7e-a48a-1bfef91ed09b" />
+<img width="1063" height="985" alt="image" src="https://github.com/user-attachments/assets/5ac3c85e-268d-4f3f-9fef-88cf1d8268a3" />
+<img width="1063" height="991" alt="image" src="https://github.com/user-attachments/assets/7babc173-738c-4dfa-9169-977595676b95" />
+<img width="1063" height="1057" alt="image" src="https://github.com/user-attachments/assets/f2b089e2-270d-48b0-94f7-ec86fbadd031" />
+<img width="1063" height="841" alt="image" src="https://github.com/user-attachments/assets/0ec84c86-c43d-4a62-ae89-c057ca12b668" />
+<img width="1063" height="969" alt="image" src="https://github.com/user-attachments/assets/f4137f13-f4ff-4785-91cd-fc29c11ab01e" />
+<img width="1063" height="965" alt="image" src="https://github.com/user-attachments/assets/0131cbef-8bdb-4d20-8c10-d093529ad290" />
+<img width="1181" height="559" alt="image" src="https://github.com/user-attachments/assets/d65f81cd-2988-4422-a42b-aadb2641824f" />
 
 ### Blind Track Detection in Action
-![Blind Track Detection] <img width="649" height="1244" alt="image" src="https://github.com/user-attachments/assets/0609bcd4-1a2e-4c6f-9fec-1b53190407fe" />
-![Blind Track Detection] <img width="479" height="1342" alt="image" src="https://github.com/user-attachments/assets/5a0704f4-2af8-46a0-9033-90557df164f1" />
+<img width="649" height="1244" alt="image" src="https://github.com/user-attachments/assets/0609bcd4-1a2e-4c6f-9fec-1b53190407fe" />
+<img width="479" height="1342" alt="image" src="https://github.com/user-attachments/assets/5a0704f4-2af8-46a0-9033-90557df164f1" />
 
 ### Navigation with Route Planning
-![Navigation] <img width="708" height="669" alt="image" src="https://github.com/user-attachments/assets/6637adc1-bd71-4985-a5fa-32892854a5a4" />
-![Navigation] <img width="708" height="691" alt="image" src="https://github.com/user-attachments/assets/bedef282-0583-49a6-98fa-05797799bf46" />
-![Navigation] <img width="708" height="634" alt="image" src="https://github.com/user-attachments/assets/afc8bb38-b16d-4f1b-b189-d5d5743e8a23" />
-![Navigation] <img width="708" height="1114" alt="image" src="https://github.com/user-attachments/assets/b56f35f7-dbf3-484b-b44f-84b55f20c244" />
-![Navigation] <img width="709" height="730" alt="image" src="https://github.com/user-attachments/assets/086b046f-a69d-4af8-b6ca-d26c07490c54" />
+<img width="708" height="669" alt="image" src="https://github.com/user-attachments/assets/6637adc1-bd71-4985-a5fa-32892854a5a4" />
+<img width="708" height="691" alt="image" src="https://github.com/user-attachments/assets/bedef282-0583-49a6-98fa-05797799bf46" />
+<img width="708" height="634" alt="image" src="https://github.com/user-attachments/assets/afc8bb38-b16d-4f1b-b189-d5d5743e8a23" />
+<img width="708" height="1114" alt="image" src="https://github.com/user-attachments/assets/b56f35f7-dbf3-484b-b44f-84b55f20c244" />
+<img width="709" height="730" alt="image" src="https://github.com/user-attachments/assets/086b046f-a69d-4af8-b6ca-d26c07490c54" />
 
 ### OCR Text Recognition
-![OCR] <img width="1181" height="462" alt="image" src="https://github.com/user-attachments/assets/51474aa5-2157-4a9c-a9c0-e141648db1e2" />
-![OCR] <img width="1181" height="558" alt="image" src="https://github.com/user-attachments/assets/42362a8f-fdc6-4cdc-8c69-80a4ac48b5dc" />
-![OCR] <img width="1180" height="930" alt="image" src="https://github.com/user-attachments/assets/38a592f6-f621-4ef9-b954-fb53cfe1e2f9" />
+<img width="1181" height="462" alt="image" src="https://github.com/user-attachments/assets/51474aa5-2157-4a9c-a9c0-e141648db1e2" />
+<img width="1181" height="558" alt="image" src="https://github.com/user-attachments/assets/42362a8f-fdc6-4cdc-8c69-80a4ac48b5dc" />
+<img width="1180" height="930" alt="image" src="https://github.com/user-attachments/assets/38a592f6-f621-4ef9-b954-fb53cfe1e2f9" />
 
 ### Environment Risk Assessment
-![Risk Assessment] <img width="708" height="600" alt="image" src="https://github.com/user-attachments/assets/3b7b5018-718e-4a76-972b-18c193968bf1" />
-![Risk Assessment] <img width="708" height="566" alt="image" src="https://github.com/user-attachments/assets/ba0e5322-8f45-40de-86b6-85a75d4d77a2" />
-![Risk Assessment] <img width="708" height="559" alt="image" src="https://github.com/user-attachments/assets/fc2221d8-c12d-4509-aac9-1585262a4878" />
+<img width="708" height="600" alt="image" src="https://github.com/user-attachments/assets/3b7b5018-718e-4a76-972b-18c193968bf1" />
+<img width="708" height="566" alt="image" src="https://github.com/user-attachments/assets/ba0e5322-8f45-40de-86b6-85a75d4d77a2" />
+<img width="708" height="559" alt="image" src="https://github.com/user-attachments/assets/fc2221d8-c12d-4509-aac9-1585262a4878" />
 
 ### Voice Command Interface
-![Voice Commands] <img width="1181" height="799" alt="image" src="https://github.com/user-attachments/assets/b0addf87-8f44-4fd8-afd9-dffb8b8d7cb6" />
+<img width="1181" height="799" alt="image" src="https://github.com/user-attachments/assets/b0addf87-8f44-4fd8-afd9-dffb8b8d7cb6" />
 
 ### Main User Interface (Family End / Caretaker)
-![Caretaker] <img width="1181" height="993" alt="image" src="https://github.com/user-attachments/assets/62f9a636-1120-4658-93bb-ad3fd2ddebb0" />
-![Caretaker] <img width="1181" height="1289" alt="image" src="https://github.com/user-attachments/assets/2ceec4d3-e948-42c7-ab79-b88c0d15d599" />
-![Caretaker] <img width="1181" height="475" alt="image" src="https://github.com/user-attachments/assets/4271d73c-7936-4c7b-aed7-0c760d22c9b6" />
+<img width="1181" height="993" alt="image" src="https://github.com/user-attachments/assets/62f9a636-1120-4658-93bb-ad3fd2ddebb0" />
+<img width="1181" height="1289" alt="image" src="https://github.com/user-attachments/assets/2ceec4d3-e948-42c7-ab79-b88c0d15d599" />
+<img width="1181" height="475" alt="image" src="https://github.com/user-attachments/assets/4271d73c-7936-4c7b-aed7-0c760d22c9b6" />
 
 ### Caretaker Dashboard 
-![Caretaker Dashboard] <img width="1181" height="1030" alt="image" src="https://github.com/user-attachments/assets/8cf542f6-9156-49f4-91ec-70ff1fc2b0cb" />
-![Caretaker Dashboard] <img width="1181" height="542" alt="image" src="https://github.com/user-attachments/assets/e9cdd3db-0899-43c7-8f95-cfc182468b22" />
-![Caretaker Dashboard] <img width="1181" height="661" alt="image" src="https://github.com/user-attachments/assets/7e63df9d-8228-42dc-bc41-78c89d1743d4" />
+<img width="1181" height="1030" alt="image" src="https://github.com/user-attachments/assets/8cf542f6-9156-49f4-91ec-70ff1fc2b0cb" />
+<img width="1181" height="542" alt="image" src="https://github.com/user-attachments/assets/e9cdd3db-0899-43c7-8f95-cfc182468b22" />
+<img width="1181" height="661" alt="image" src="https://github.com/user-attachments/assets/7e63df9d-8228-42dc-bc41-78c89d1743d4" />
 
 ### Settings Modal (Voice & Profile)
 ![Settings]
