@@ -323,8 +323,7 @@ The application will run at http://127.0.0.1:5000/
 
 ## 👩‍💻 Author
 
-**Fathima Thahirah Razmi**  
-[GitHub](https://github.com/Thahirah-Razmi)
+[Thahirah Razmi](https://github.com/Thahirah-Razmi)
 
 ---
 
