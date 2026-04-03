@@ -256,6 +256,7 @@ The application will run at http://127.0.0.1:5000/
 <img width="1181" height="1036" alt="image" src="https://github.com/user-attachments/assets/4118c8f7-beb7-42b6-b728-6efbfbd2c5fd" />
 <img width="1181" height="695" alt="image" src="https://github.com/user-attachments/assets/beac2b2c-f38b-4252-a7e2-4a6d8905db10" />
 
+### Help Section
 <img width="1063" height="1299" alt="image" src="https://github.com/user-attachments/assets/6b4c8644-b37e-4d7e-a48a-1bfef91ed09b" />
 <img width="1063" height="985" alt="image" src="https://github.com/user-attachments/assets/5ac3c85e-268d-4f3f-9fef-88cf1d8268a3" />
 <img width="1063" height="991" alt="image" src="https://github.com/user-attachments/assets/7babc173-738c-4dfa-9169-977595676b95" />
@@ -264,6 +265,11 @@ The application will run at http://127.0.0.1:5000/
 <img width="1063" height="969" alt="image" src="https://github.com/user-attachments/assets/f4137f13-f4ff-4785-91cd-fc29c11ab01e" />
 <img width="1063" height="965" alt="image" src="https://github.com/user-attachments/assets/0131cbef-8bdb-4d20-8c10-d093529ad290" />
 <img width="1181" height="559" alt="image" src="https://github.com/user-attachments/assets/d65f81cd-2988-4422-a42b-aadb2641824f" />
+
+### Settings Modal (Voice & Profile)
+<img width="1181" height="552" alt="image" src="https://github.com/user-attachments/assets/71fd516c-8f82-4c03-85a5-213a11a9da16" />
+<img width="1181" height="614" alt="image" src="https://github.com/user-attachments/assets/3e030400-07d8-4315-9fa9-bb9c943ca463" />
+<img width="1181" height="672" alt="image" src="https://github.com/user-attachments/assets/74496e41-9760-4b22-ab02-ebc4c59db9f5" />
 
 ### Blind Track Detection in Action
 <img width="649" height="1244" alt="image" src="https://github.com/user-attachments/assets/0609bcd4-1a2e-4c6f-9fec-1b53190407fe" />
@@ -298,11 +304,6 @@ The application will run at http://127.0.0.1:5000/
 <img width="1181" height="1030" alt="image" src="https://github.com/user-attachments/assets/8cf542f6-9156-49f4-91ec-70ff1fc2b0cb" />
 <img width="1181" height="542" alt="image" src="https://github.com/user-attachments/assets/e9cdd3db-0899-43c7-8f95-cfc182468b22" />
 <img width="1181" height="661" alt="image" src="https://github.com/user-attachments/assets/7e63df9d-8228-42dc-bc41-78c89d1743d4" />
-
-### Settings Modal (Voice & Profile)
-<img width="1181" height="552" alt="image" src="https://github.com/user-attachments/assets/71fd516c-8f82-4c03-85a5-213a11a9da16" />
-<img width="1181" height="614" alt="image" src="https://github.com/user-attachments/assets/3e030400-07d8-4315-9fa9-bb9c943ca463" />
-<img width="1181" height="672" alt="image" src="https://github.com/user-attachments/assets/74496e41-9760-4b22-ab02-ebc4c59db9f5" />
 
 ---
 
