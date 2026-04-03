@@ -173,7 +173,6 @@ pip install -r requirements.txt
 4. Install Ollama and pull model
 
 ```
-```bash
 # Visit https://ollama.com/ to download and install Ollama for your OS
 
 # After installation, pull the qwen2.5:3b model
