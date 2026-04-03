@@ -241,7 +241,7 @@ The application will run at http://127.0.0.1:5000/
 ## 📸 Visual Previews
 
 ### Login Page
-![Login Page] <img width="1181" height="627" alt="image" src="https://github.com/user-attachments/assets/bce307be-9bcc-4643-bd33-ca8b82eda6e6" />
+![Login Page]<img width="1181" height="627" alt="image" src="https://github.com/user-attachments/assets/bce307be-9bcc-4643-bd33-ca8b82eda6e6" />
 
 ### Registration Page
 
